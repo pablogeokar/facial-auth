@@ -16,6 +16,7 @@ interface VerifyResult {
     livenessScore: number | null;
     blocked?: boolean;
     inactive?: boolean;
+    observation?: string | null;
     error?: string;
 }
 
@@ -23,7 +24,7 @@ type DialogState =
     | { type: "none" }
     | { type: "granted"; userName: string; userId: string }
     | { type: "denied" }
-    | { type: "blocked"; userName: string }
+    | { type: "blocked"; userName: string; observation?: string | null }
     | { type: "suspended"; userName: string }
     | { type: "error"; message: string };
 
@@ -49,7 +50,7 @@ export default function VerifyPanel() {
             const data: VerifyResult = await res.json();
 
             if (data.blocked && data.user) {
-                setDialog({ type: "blocked", userName: data.user.name });
+                setDialog({ type: "blocked", userName: data.user.name, observation: data.observation });
             } else if (data.inactive && data.user) {
                 setDialog({ type: "suspended", userName: data.user.name });
             } else if (data.matched && data.user) {
@@ -83,6 +84,7 @@ export default function VerifyPanel() {
             <BlockedDialog
                 open={dialog.type === "blocked"}
                 userName={dialog.type === "blocked" ? dialog.userName : ""}
+                observation={dialog.type === "blocked" ? dialog.observation : null}
                 onClose={closeDialog}
             />
             <SuspendedDialog

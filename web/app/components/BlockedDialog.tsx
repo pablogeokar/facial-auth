@@ -5,10 +5,11 @@ import { useEffect, useRef } from "react";
 interface BlockedDialogProps {
     open: boolean;
     userName: string;
+    observation?: string | null;
     onClose: () => void;
 }
 
-export default function BlockedDialog({ open, userName, onClose }: BlockedDialogProps) {
+export default function BlockedDialog({ open, userName, observation, onClose }: BlockedDialogProps) {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -41,6 +42,22 @@ export default function BlockedDialog({ open, userName, onClose }: BlockedDialog
                 <p className="text-sm text-muted leading-relaxed mb-1">
                     O usuário <span className="font-semibold text-foreground">{userName}</span> está com o acesso <span className="font-semibold text-danger">BLOQUEADO</span>.
                 </p>
+
+                {/* Observation */}
+                {observation && (
+                    <div className="my-4 mx-auto max-w-sm rounded-md bg-danger-light border border-danger/20 px-4 py-3 text-left">
+                        <div className="flex items-start gap-2">
+                            <svg viewBox="0 0 20 20" fill="#ef4444" className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clipRule="evenodd" />
+                            </svg>
+                            <div>
+                                <span className="text-xs font-semibold text-danger uppercase tracking-wide">Motivo</span>
+                                <p className="text-sm text-foreground leading-relaxed mt-0.5">{observation}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <p className="text-sm text-muted leading-relaxed mb-6">
                     Por favor, procure a <span className="font-semibold text-foreground">secretaria</span> para regularizar sua situação.
                 </p>

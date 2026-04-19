@@ -13,6 +13,7 @@ export interface User {
     descriptor: number[];
     enrolledAt: string;
     status: UserStatus;
+    observation?: string;
 }
 
 export interface RecognitionResult {
@@ -22,6 +23,7 @@ export interface RecognitionResult {
     livenessScore: number | null;
     blocked?: boolean;
     inactive?: boolean;
+    observation?: string | null;
 }
 
 export interface EnrollRequest {

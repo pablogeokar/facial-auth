@@ -37,6 +37,7 @@ export async function verifyRoutes(app: FastifyInstance): Promise<void> {
                                 distance: result.distance,
                                 livenessScore: result.livenessScore,
                                 blocked: true,
+                                observation: user.observation ?? null,
                             });
                         }
                         if (user.status === "INATIVO") {

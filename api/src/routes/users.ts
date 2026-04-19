@@ -14,16 +14,16 @@ export async function usersRoutes(app: FastifyInstance): Promise<void> {
     // Update a user (name and/or status)
     app.patch<{
         Params: { id: string };
-        Body: { name?: string; status?: UserStatus };
+        Body: { name?: string; status?: UserStatus; observation?: string };
         Reply: { success: boolean; user?: Record<string, unknown> } | ErrorResponse;
     }>("/api/users/:id", async (request, reply) => {
         const { id } = request.params;
-        const { name, status } = request.body;
+        const { name, status, observation } = request.body;
 
-        if (!name && !status) {
+        if (!name && !status && observation === undefined) {
             return reply.status(400).send({
                 success: false,
-                error: "Informe ao menos um campo para atualizar: name, status",
+                error: "Informe ao menos um campo para atualizar: name, status, observation",
             });
         }
 
@@ -34,7 +34,7 @@ export async function usersRoutes(app: FastifyInstance): Promise<void> {
             });
         }
 
-        const updated = userStore.update(id, { name, status });
+        const updated = userStore.update(id, { name, status, observation });
 
         if (!updated) {
             return reply.status(404).send({
