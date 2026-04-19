@@ -12,26 +12,17 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header — blue bar with diagonal color stripes */}
+      {/* Header — using original FIES bg.jpg for the stripe bar */}
       <header>
-        {/* Top blue bar with diagonal stripes on the right */}
-        <div className="relative bg-accent overflow-hidden h-12 sm:h-14">
-          {/* Diagonal color stripes — right side */}
-          <svg
-            className="absolute right-0 top-0 h-full w-[280px] sm:w-[360px]"
-            viewBox="0 0 360 56"
-            preserveAspectRatio="none"
-            fill="none"
-            aria-hidden="true"
-          >
-            <polygon points="100,0 360,0 360,56 40,56" fill="#ffffff" />
-            <polygon points="140,0 360,0 360,56 80,56" fill="#3bb4e5" />
-            <polygon points="180,0 360,0 360,56 120,56" fill="#4cb848" />
-            <polygon points="210,0 360,0 360,56 150,56" fill="#ef5e31" />
-            <polygon points="250,0 360,0 360,56 190,56" fill="#ffffff" />
-            <polygon points="280,0 360,0 360,56 220,56" fill="#3bb4e5" />
-          </svg>
-        </div>
+        {/* Top bar with the original diagonal stripes background */}
+        <div
+          className="h-12 sm:h-14"
+          style={{
+            backgroundImage: "url('/header-bg.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "top center",
+          }}
+        />
 
         {/* Logo strip — white background, centered logo */}
         <div className="bg-white border-b border-card-border">

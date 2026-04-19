@@ -1,26 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  /* FIES Portal-inspired palette */
-  --background: #f0f4f8;
-  --foreground: #1e293b;
+  /* Cores extraídas do código fonte do Portal Educacional FIES */
+  --background: #f9f9f9;
+  /* body-login */
+  --foreground: #333333;
+  /* body color */
   --card: #ffffff;
   --card-border: #cbd5e1;
   --accent: #1a4b9f;
+  /* login-box bg */
   --accent-hover: #153d82;
   --accent-light: #e8eef8;
   --teal: #0c9abe;
+  /* submit button bg */
   --teal-hover: #49afc9;
+  /* submit button hover */
   --orange: #ef5e31;
+  /* label bg */
   --gold: #faa635;
+  /* hover accent / link hover */
   --success: #00b39c;
+  /* login-box button bg */
   --success-light: #e6f9f5;
   --danger: #ef4444;
   --danger-light: #fef2f2;
-  --muted: #64748b;
-  --muted-light: #94a3b8;
-  --surface: #f8fafc;
+  --muted: #777777;
+  /* text-muted */
+  --muted-light: #9a9a9a;
+  /* link color */
+  --surface: #f9f9f9;
+  /* body-login */
   --header-bg: #08687e;
+  /* header-login */
 }
 
 @theme inline {
