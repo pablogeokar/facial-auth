@@ -14,9 +14,9 @@ export default function Home() {
   const [autoMode, setAutoMode] = useState(false);
 
   const titles: Record<Tab, string> = {
-    verify: "Verificação de Acesso",
-    enroll: "Cadastro de Utilizador",
-    users: "Gestão de Usuários",
+    verify: "Permissão de Acesso",
+    enroll: "Cadastro de Usuário",
+    users: "Listagem/Edição de Usuários",
   };
 
   const descriptions: Record<Tab, string> = {
@@ -69,11 +69,10 @@ export default function Home() {
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`cursor-pointer px-5 py-2 rounded-md font-semibold text-sm transition-colors ${
-                    tab === t
-                      ? "bg-accent text-white shadow-sm"
-                      : "text-muted hover:bg-surface hover:text-foreground"
-                  }`}
+                  className={`cursor-pointer px-5 py-2 rounded-md font-semibold text-sm transition-colors ${tab === t
+                    ? "bg-accent text-white shadow-sm"
+                    : "text-muted hover:bg-surface hover:text-foreground"
+                    }`}
                 >
                   {t === "verify" ? "Verificar" : t === "enroll" ? "Cadastrar" : "Usuários"}
                 </button>
@@ -105,16 +104,16 @@ export default function Home() {
           <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-card-border shadow-md py-2 px-4 flex flex-col gap-1 origin-top animate-none">
             {tab === "verify" && (
               <div className="flex items-center justify-between px-4 py-3 border-b border-card-border/50 mb-1 bg-surface/50 rounded-md">
-                 <span className="text-[15px] font-medium text-foreground">Modo Contínuo</span>
-                 <button
-                    onClick={() => setAutoMode(!autoMode)}
-                    type="button"
-                    className={`relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent/40 ${autoMode ? "bg-accent" : "bg-card-border"}`}
-                    role="switch"
-                    aria-checked={autoMode}
-                 >
-                    <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${autoMode ? "translate-x-6" : "translate-x-1"}`} />
-                 </button>
+                <span className="text-[15px] font-medium text-foreground">Modo Contínuo</span>
+                <button
+                  onClick={() => setAutoMode(!autoMode)}
+                  type="button"
+                  className={`relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent/40 ${autoMode ? "bg-accent" : "bg-card-border"}`}
+                  role="switch"
+                  aria-checked={autoMode}
+                >
+                  <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${autoMode ? "translate-x-6" : "translate-x-1"}`} />
+                </button>
               </div>
             )}
             {(["verify", "enroll", "users"] as Tab[]).map((t) => (
@@ -124,13 +123,12 @@ export default function Home() {
                   setTab(t);
                   setIsMobileMenuOpen(false);
                 }}
-                className={`w-full text-left px-4 py-3 rounded-md font-medium text-[15px] transition-colors ${
-                  tab === t
-                    ? "bg-accent/10 border-l-4 border-accent text-accent"
-                    : "text-muted hover:bg-surface hover:text-foreground border-l-4 border-transparent"
-                }`}
+                className={`w-full text-left px-4 py-3 rounded-md font-medium text-[15px] transition-colors ${tab === t
+                  ? "bg-accent/10 border-l-4 border-accent text-accent"
+                  : "text-muted hover:bg-surface hover:text-foreground border-l-4 border-transparent"
+                  }`}
               >
-                {t === "verify" ? "Verificação de Acesso" : t === "enroll" ? "Cadastro de Utilizador" : "Gestão de Usuários"}
+                {t === "verify" ? "Permissão de Acesso" : t === "enroll" ? "Novo Usuário" : "Listagem de Usuários"}
               </button>
             ))}
           </div>

@@ -66,9 +66,9 @@ export default function WebcamCapture({
     return (
         <div className="relative">
             {error ? (
-                <div className="flex items-center justify-center h-[360px] rounded-lg bg-danger-light border border-danger/20 text-danger text-sm px-6 text-center">
-                    <div className="flex flex-col items-center gap-2">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-8 h-8" aria-hidden="true">
+                <div className="flex items-center justify-center h-[360px] rounded-xl bg-surface/50 border border-card-border/60 shadow-inner text-muted text-[15px] px-6 text-center">
+                    <div className="flex flex-col items-center gap-3">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-10 h-10 text-muted-light opacity-80" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                         </svg>
                         {error}

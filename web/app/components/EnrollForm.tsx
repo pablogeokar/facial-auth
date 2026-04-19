@@ -54,7 +54,7 @@ export default function EnrollForm() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label htmlFor="userId" className="block text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
-                        ID do Utilizador
+                        ID do Usuário
                     </label>
                     <input
                         id="userId"
@@ -97,14 +97,14 @@ export default function EnrollForm() {
                 type="button"
                 className="w-full cursor-pointer rounded-md bg-teal py-3 text-sm font-semibold text-white uppercase tracking-wide transition-colors hover:bg-teal-hover disabled:cursor-not-allowed disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-teal/40"
             >
-                {loading ? "A processar..." : "Cadastrar Utilizador"}
+                {loading ? "Processando..." : "Cadastrar"}
             </button>
 
             {result && (
                 <div
                     className={`rounded-md border px-4 py-3 text-sm ${result.success
-                            ? "border-success/30 bg-success-light text-success"
-                            : "border-danger/30 bg-danger-light text-danger"
+                        ? "border-success/30 bg-success-light text-success"
+                        : "border-danger/30 bg-danger-light text-danger"
                         }`}
                     role="alert"
                 >
