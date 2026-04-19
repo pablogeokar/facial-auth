@@ -28,9 +28,8 @@ type DialogState =
     | { type: "suspended"; userName: string }
     | { type: "error"; message: string };
 
-export default function VerifyPanel() {
+export default function VerifyPanel({ autoMode }: { autoMode: boolean }) {
     const [loading, setLoading] = useState(false);
-    const [autoMode, setAutoMode] = useState(false);
     const [dialog, setDialog] = useState<DialogState>({ type: "none" });
     const busyRef = useRef(false);
 
@@ -93,23 +92,6 @@ export default function VerifyPanel() {
                 onClose={closeDialog}
             />
 
-            <div className="flex items-center justify-between rounded-md bg-surface border border-card-border px-4 py-3">
-                <span className="text-sm text-foreground font-medium">Modo contínuo</span>
-                <button
-                    onClick={() => setAutoMode((v) => !v)}
-                    type="button"
-                    className={`relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-teal/40 ${autoMode ? "bg-teal" : "bg-card-border"
-                        }`}
-                    role="switch"
-                    aria-checked={autoMode}
-                    aria-label="Alternar modo de verificação contínua"
-                >
-                    <span
-                        className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${autoMode ? "translate-x-6" : "translate-x-1"
-                            }`}
-                    />
-                </button>
-            </div>
 
             {/* Webcam with loading overlay */}
             <div className="relative">

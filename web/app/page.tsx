@@ -11,6 +11,7 @@ type Tab = "verify" | "enroll" | "users";
 export default function Home() {
   const [tab, setTab] = useState<Tab>("verify");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [autoMode, setAutoMode] = useState(false);
 
   const titles: Record<Tab, string> = {
     verify: "Verificação de Acesso",
@@ -50,6 +51,20 @@ export default function Home() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-1.5 pt-1">
+              {tab === "verify" && (
+                <div className="flex items-center gap-2 mr-2 bg-surface px-3 py-1.5 rounded-md border border-card-border/50" title="Verificação automática sem cliques">
+                  <span className="text-xs text-muted-light font-medium uppercase">Contínuo</span>
+                  <button
+                    onClick={() => setAutoMode(!autoMode)}
+                    type="button"
+                    className={`relative inline-flex h-5 w-9 cursor-pointer items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent/40 ${autoMode ? "bg-accent" : "bg-card-border"}`}
+                    role="switch"
+                    aria-checked={autoMode}
+                  >
+                    <span className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform ${autoMode ? "translate-x-4" : "translate-x-1"}`} />
+                  </button>
+                </div>
+              )}
               {(["verify", "enroll", "users"] as Tab[]).map((t) => (
                 <button
                   key={t}
@@ -88,6 +103,20 @@ export default function Home() {
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-card-border shadow-md py-2 px-4 flex flex-col gap-1 origin-top animate-none">
+            {tab === "verify" && (
+              <div className="flex items-center justify-between px-4 py-3 border-b border-card-border/50 mb-1 bg-surface/50 rounded-md">
+                 <span className="text-[15px] font-medium text-foreground">Modo Contínuo</span>
+                 <button
+                    onClick={() => setAutoMode(!autoMode)}
+                    type="button"
+                    className={`relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent/40 ${autoMode ? "bg-accent" : "bg-card-border"}`}
+                    role="switch"
+                    aria-checked={autoMode}
+                 >
+                    <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${autoMode ? "translate-x-6" : "translate-x-1"}`} />
+                 </button>
+              </div>
+            )}
             {(["verify", "enroll", "users"] as Tab[]).map((t) => (
               <button
                 key={t}
@@ -138,7 +167,7 @@ export default function Home() {
 
           {/* Card */}
           <div className="w-full max-w-2xl rounded-xl border border-card-border bg-card p-6 shadow-sm">
-            {tab === "verify" && <VerifyPanel />}
+            {tab === "verify" && <VerifyPanel autoMode={autoMode} />}
             {tab === "enroll" && <EnrollForm />}
             {tab === "users" && <UsersPanel />}
           </div>
