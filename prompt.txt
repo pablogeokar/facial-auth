@@ -1,0 +1,41 @@
+## Contexto do Projeto
+O objetivo é criar uma aplicação de controle de acesso moderna utilizando exclusivamente **TypeScript**. O sistema deve permitir o cadastro de utilizadores (guardando os seus descritores faciais) e a validação em tempo real através de frames captados por uma webcam.
+
+## Stack Tecnológica Obrigatória
+- **Linguagem:** TypeScript
+- **Backend:** Node.js com Fastify (foco em baixa latência)
+- **Reconhecimento Facial:** face-api.js (baseada em TensorFlow.js)
+- **Base de Dados:** Sugerir PostgreSQL com suporte a vetores (pgvector) ou armazenamento de JSON para os embeddings.
+- **Frontend (Opcional/Referência):** React ou Next.js para captura da Stream da Webcam.
+
+## Requisitos Detalhados
+
+### 1. Módulo de Processamento (Engine)
+- Criar um singleton ou serviço de inicialização que carregue os modelos do `face-api.js` (ssdMobilenetv1, faceLandmark68Net, faceRecognitionNet).
+- Implementar uma função `generateEmbedding(image)` que recebe um buffer de imagem e retorna um `Float32Array` (o descritor de 128 posições).
+
+### 2. Módulo de Cadastro (Enrollment)
+- Rota para receber uma imagem e um ID de utilizador.
+- O sistema deve validar se existe exatamente UM rosto na foto.
+- Extrair o embedding e persistir no banco de dados associado ao perfil do utilizador.
+
+### 3. Módulo de Verificação (Auth/Access)
+- Rota de alta performance que recebe um frame da webcam (base64 ou buffer).
+- Implementar a lógica de comparação (`faceapi.euclideanDistance`).
+- Definir um "Threshold" (limite de distância) de 0.45 para considerar uma correspondência válida.
+- Retornar os dados do utilizador se identificado, ou "Acesso Negado".
+
+### 4. Boas Práticas e Segurança
+- Implementar tratamento de erros para imagens sem rostos ou com múltiplos rostos.
+- Sugerir uma lógica simples de "Liveness Detection" (ex: verificar se a distância entre os olhos ou proporção do rosto condiz com um humano real e não uma foto estática).
+- Código totalmente tipado com Interfaces para User, RecognitionResult e AppConfig.
+
+## O que deves gerar:
+1. A estrutura de pastas sugerida.
+2. O arquivo `package.json` com as dependências necessárias.
+3. O código do servidor Fastify (`server.ts`).
+4. O serviço de lógica facial (`faceService.ts`).
+5. Um exemplo de como o Frontend deve enviar o frame via fetch.
+
+---
+*Instrução Adicional:* Não utilizes Python. Foca na integração do `canvas` com `face-api.js` para o ambiente Node.js.
