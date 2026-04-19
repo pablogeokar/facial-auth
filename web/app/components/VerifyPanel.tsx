@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import WebcamCapture from "./WebcamCapture";
 import BlockedDialog from "./BlockedDialog";
+import SuspendedDialog from "./SuspendedDialog";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
@@ -21,6 +22,7 @@ export default function VerifyPanel() {
     const [loading, setLoading] = useState(false);
     const [autoMode, setAutoMode] = useState(false);
     const [blockedUser, setBlockedUser] = useState<string | null>(null);
+    const [suspendedUser, setSuspendedUser] = useState<string | null>(null);
     const busyRef = useRef(false);
 
     const handleCapture = useCallback(async (base64: string) => {
@@ -38,6 +40,9 @@ export default function VerifyPanel() {
 
             if (data.blocked && data.user) {
                 setBlockedUser(data.user.name);
+                setResult(null);
+            } else if (data.inactive && data.user) {
+                setSuspendedUser(data.user.name);
                 setResult(null);
             } else {
                 setResult(data);
@@ -63,6 +68,13 @@ export default function VerifyPanel() {
                 open={blockedUser !== null}
                 userName={blockedUser ?? ""}
                 onClose={() => setBlockedUser(null)}
+            />
+
+            {/* Suspended dialog */}
+            <SuspendedDialog
+                open={suspendedUser !== null}
+                userName={suspendedUser ?? ""}
+                onClose={() => setSuspendedUser(null)}
             />
 
             <div className="flex items-center justify-between rounded-md bg-surface border border-card-border px-4 py-3">
@@ -102,8 +114,8 @@ export default function VerifyPanel() {
             {result && !result.error && (
                 <div
                     className={`rounded-lg border p-5 ${result.matched
-                            ? "border-success/40 bg-success-light"
-                            : "border-danger/40 bg-danger-light"
+                        ? "border-success/40 bg-success-light"
+                        : "border-danger/40 bg-danger-light"
                         }`}
                     role="alert"
                 >

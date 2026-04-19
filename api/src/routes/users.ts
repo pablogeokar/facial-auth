@@ -46,4 +46,23 @@ export async function usersRoutes(app: FastifyInstance): Promise<void> {
         const { descriptor: _, ...safe } = updated;
         return { success: true, user: safe };
     });
+
+    // Delete a user
+    app.delete<{
+        Params: { id: string };
+        Reply: { success: boolean; message: string } | ErrorResponse;
+    }>("/api/users/:id", async (request, reply) => {
+        const { id } = request.params;
+
+        const deleted = userStore.delete(id);
+
+        if (!deleted) {
+            return reply.status(404).send({
+                success: false,
+                error: `User "${id}" not found`,
+            });
+        }
+
+        return { success: true, message: `User "${id}" deleted successfully` };
+    });
 }

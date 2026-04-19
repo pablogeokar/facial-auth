@@ -34,6 +34,10 @@ class UserStore {
     count(): number {
         return this.users.size;
     }
+
+    delete(id: string): boolean {
+        return this.users.delete(id);
+    }
 }
 
 export const userStore = new UserStore();
