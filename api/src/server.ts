@@ -20,8 +20,11 @@ await app.register(cors, {
 
 // Health check
 app.get("/api/health", async () => ({
-    status: "ok",
+    status: "success",
+    message: "Tudo certo! A API de Autenticação Facial está funcionando perfeitamente. 🚀",
     enrolledUsers: userStore.count(),
+    uptime: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
 }));
 
 // Register routes
