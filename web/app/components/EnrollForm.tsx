@@ -51,9 +51,9 @@ export default function EnrollForm() {
 
     return (
         <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label htmlFor="userId" className="block text-xs font-medium text-muted mb-1.5">
+                    <label htmlFor="userId" className="block text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
                         ID do Utilizador
                     </label>
                     <input
@@ -62,11 +62,11 @@ export default function EnrollForm() {
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
                         placeholder="ex: user-001"
-                        className="w-full rounded-lg border border-card-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/30"
+                        className="w-full rounded-md border border-card-border bg-surface px-3 py-2.5 text-sm text-foreground placeholder:text-muted-light focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20 transition-colors"
                     />
                 </div>
                 <div>
-                    <label htmlFor="name" className="block text-xs font-medium text-muted mb-1.5">
+                    <label htmlFor="name" className="block text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
                         Nome
                     </label>
                     <input
@@ -75,7 +75,7 @@ export default function EnrollForm() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="ex: João Silva"
-                        className="w-full rounded-lg border border-card-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/30"
+                        className="w-full rounded-md border border-card-border bg-surface px-3 py-2.5 text-sm text-foreground placeholder:text-muted-light focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20 transition-colors"
                     />
                 </div>
             </div>
@@ -83,23 +83,28 @@ export default function EnrollForm() {
             <WebcamCapture onCapture={handleCapture} />
 
             {capturedImage && (
-                <p className="text-xs text-success">Imagem capturada com sucesso.</p>
+                <div className="flex items-center gap-2 text-sm text-success">
+                    <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4" aria-hidden="true">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                    </svg>
+                    Imagem capturada com sucesso.
+                </div>
             )}
 
             <button
                 onClick={handleEnroll}
                 disabled={!userId.trim() || !name.trim() || !capturedImage || loading}
                 type="button"
-                className="w-full cursor-pointer rounded-lg bg-accent py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-accent/50"
+                className="w-full cursor-pointer rounded-md bg-teal py-3 text-sm font-semibold text-white uppercase tracking-wide transition-colors hover:bg-teal-hover disabled:cursor-not-allowed disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-teal/40"
             >
                 {loading ? "A processar..." : "Cadastrar Utilizador"}
             </button>
 
             {result && (
                 <div
-                    className={`rounded-lg border px-4 py-3 text-sm ${result.success
-                            ? "border-success/30 bg-success/10 text-success"
-                            : "border-danger/30 bg-danger/10 text-danger"
+                    className={`rounded-md border px-4 py-3 text-sm ${result.success
+                            ? "border-success/30 bg-success-light text-success"
+                            : "border-danger/30 bg-danger-light text-danger"
                         }`}
                     role="alert"
                 >

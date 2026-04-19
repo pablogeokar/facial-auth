@@ -57,7 +57,6 @@ export default function WebcamCapture({
         if (base64) onCapture(base64);
     }, [onCapture]);
 
-    // Auto-capture interval for verification mode
     useEffect(() => {
         if (!autoCapture || !streaming) return;
         const id = setInterval(capture, autoCaptureInterval);
@@ -67,24 +66,31 @@ export default function WebcamCapture({
     return (
         <div className="relative">
             {error ? (
-                <div className="flex items-center justify-center h-[360px] rounded-xl bg-card border border-card-border text-danger text-sm px-6 text-center">
-                    {error}
+                <div className="flex items-center justify-center h-[360px] rounded-lg bg-danger-light border border-danger/20 text-danger text-sm px-6 text-center">
+                    <div className="flex flex-col items-center gap-2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-8 h-8" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                        </svg>
+                        {error}
+                    </div>
                 </div>
             ) : (
                 <>
-                    <video
-                        ref={videoRef}
-                        autoPlay
-                        playsInline
-                        muted
-                        className="w-full rounded-xl border border-card-border"
-                    />
+                    <div className="overflow-hidden rounded-lg border-2 border-card-border bg-foreground/5">
+                        <video
+                            ref={videoRef}
+                            autoPlay
+                            playsInline
+                            muted
+                            className="w-full block"
+                        />
+                    </div>
                     <canvas ref={canvasRef} className="hidden" />
                     {!autoCapture && streaming && (
                         <button
                             onClick={capture}
                             type="button"
-                            className="absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/50"
+                            className="absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer rounded-md bg-teal px-6 py-2.5 text-sm font-semibold text-white uppercase tracking-wide shadow-lg transition-colors hover:bg-teal-hover focus:outline-none focus:ring-2 focus:ring-teal/40"
                         >
                             Capturar
                         </button>

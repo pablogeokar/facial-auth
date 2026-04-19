@@ -1,15 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0f1a;
-  --foreground: #e2e8f0;
-  --card: #111827;
-  --card-border: #1e293b;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --success: #22c55e;
+  /* FIES Portal-inspired palette */
+  --background: #f0f4f8;
+  --foreground: #1e293b;
+  --card: #ffffff;
+  --card-border: #cbd5e1;
+  --accent: #1a4b9f;
+  --accent-hover: #153d82;
+  --accent-light: #e8eef8;
+  --teal: #0c9abe;
+  --teal-hover: #49afc9;
+  --orange: #ef5e31;
+  --gold: #faa635;
+  --success: #00b39c;
+  --success-light: #e6f9f5;
   --danger: #ef4444;
+  --danger-light: #fef2f2;
   --muted: #64748b;
+  --muted-light: #94a3b8;
+  --surface: #f8fafc;
+  --header-bg: #08687e;
 }
 
 @theme inline {
@@ -19,9 +30,19 @@
   --color-card-border: var(--card-border);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-light);
+  --color-teal: var(--teal);
+  --color-teal-hover: var(--teal-hover);
+  --color-orange: var(--orange);
+  --color-gold: var(--gold);
   --color-success: var(--success);
+  --color-success-light: var(--success-light);
   --color-danger: var(--danger);
+  --color-danger-light: var(--danger-light);
   --color-muted: var(--muted);
+  --color-muted-light: var(--muted-light);
+  --color-surface: var(--surface);
+  --color-header-bg: var(--header-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
