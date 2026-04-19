@@ -10,6 +10,7 @@ type Tab = "verify" | "enroll" | "users";
 
 export default function Home() {
   const [tab, setTab] = useState<Tab>("verify");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const titles: Record<Tab, string> = {
     verify: "Verificação de Acesso",
@@ -26,27 +27,85 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header — using original FIES bg.jpg for the stripe bar */}
-      <header>
+      <header className="relative z-50">
         <div
-          className="h-12 sm:h-14"
+          className="h-10 sm:h-12"
           style={{
             backgroundImage: "url('/header-bg.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "top center",
           }}
         />
-        <div className="bg-white border-b border-card-border">
-          <div className="mx-auto flex h-20 max-w-5xl items-center justify-center px-4">
+        <div className="bg-white border-b border-card-border shadow-sm">
+          <div className="mx-auto flex h-16 sm:h-20 max-w-5xl items-center justify-between px-4">
+            {/* Logo */}
             <Image
               src="/logo.png"
               alt="FaceGuard logo"
-              width={320}
-              height={80}
-              className="h-14 sm:h-16 w-auto object-contain"
+              width={260}
+              height={65}
+              className="h-10 sm:h-14 w-auto object-contain"
               priority
             />
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-1.5 pt-1">
+              {(["verify", "enroll", "users"] as Tab[]).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTab(t)}
+                  className={`cursor-pointer px-5 py-2 rounded-md font-semibold text-sm transition-colors ${
+                    tab === t
+                      ? "bg-accent text-white shadow-sm"
+                      : "text-muted hover:bg-surface hover:text-foreground"
+                  }`}
+                >
+                  {t === "verify" ? "Verificar" : t === "enroll" ? "Cadastrar" : "Usuários"}
+                </button>
+              ))}
+            </nav>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 -mr-2 text-foreground cursor-pointer focus:outline-none focus:bg-surface rounded-md transition-colors"
+              aria-expanded={isMobileMenuOpen}
+              aria-label="Alternar menu de navegação"
+            >
+              {isMobileMenuOpen ? (
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-card-border shadow-md py-2 px-4 flex flex-col gap-1 origin-top animate-none">
+            {(["verify", "enroll", "users"] as Tab[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => {
+                  setTab(t);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`w-full text-left px-4 py-3 rounded-md font-medium text-[15px] transition-colors ${
+                  tab === t
+                    ? "bg-accent/10 border-l-4 border-accent text-accent"
+                    : "text-muted hover:bg-surface hover:text-foreground border-l-4 border-transparent"
+                }`}
+              >
+                {t === "verify" ? "Verificação de Acesso" : t === "enroll" ? "Cadastro de Utilizador" : "Gestão de Usuários"}
+              </button>
+            ))}
+          </div>
+        )}
       </header>
 
       {/* Main content */}
@@ -76,22 +135,6 @@ export default function Home() {
             <p className="mt-1 text-sm text-muted">{descriptions[tab]}</p>
           </div>
 
-          {/* Tab switcher */}
-          <div className="flex mb-6 rounded-lg border border-card-border bg-surface p-1 shadow-sm">
-            {(["verify", "enroll", "users"] as Tab[]).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                type="button"
-                className={`cursor-pointer rounded-md px-5 py-2 text-sm font-medium transition-colors ${tab === t
-                  ? "bg-accent text-white shadow-sm"
-                  : "text-muted hover:text-foreground hover:bg-accent-light"
-                  }`}
-              >
-                {t === "verify" ? "Verificar" : t === "enroll" ? "Cadastrar" : "Usuários"}
-              </button>
-            ))}
-          </div>
 
           {/* Card */}
           <div className="w-full max-w-2xl rounded-xl border border-card-border bg-card p-6 shadow-sm">
