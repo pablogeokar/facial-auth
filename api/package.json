@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "node scripts/download-models.js && tsc",
     "start": "node dist/server.js",
     "dev": "tsx src/server.ts",
     "download-models": "node scripts/download-models.js"
@@ -20,6 +20,9 @@
     "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@10.28.1",
+  "engines": {
+    "node": ">=20"
+  },
   "pnpm": {
     "onlyBuiltDependencies": [
       "canvas",
