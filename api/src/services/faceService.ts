@@ -1,4 +1,9 @@
-import * as faceapi from "@vladmandic/face-api";
+// Use the WASM-backed node bundle (avoids @tensorflow/tfjs-node which breaks on Node 25+)
+import "@tensorflow/tfjs-backend-wasm";
+import * as tf from "@tensorflow/tfjs";
+await tf.ready();
+
+import * as faceapi from "@vladmandic/face-api/dist/face-api.node-wasm.js";
 import { Canvas, Image, ImageData, createCanvas, loadImage } from "canvas";
 import { config } from "../config.js";
 import { userStore } from "../store.js";
@@ -34,12 +39,15 @@ export async function loadModels(): Promise<void> {
  * Decode a base64 image string into a canvas-compatible input.
  */
 async function decodeImage(base64: string): Promise<Image> {
-    const buffer = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");
+    const buffer = Buffer.from(
+        base64.replace(/^data:image\/\w+;base64,/, ""),
+        "base64"
+    );
     return loadImage(buffer) as Promise<Image>;
 }
 
 /**
- * Detect all faces in an image and return full descriptions (landmarks + descriptor).
+ * Detect all faces in an image and return full descriptions.
  */
 async function detectFaces(img: Image) {
     const canvas = createCanvas(img.width, img.height);
@@ -55,7 +63,6 @@ async function detectFaces(img: Image) {
 
 /**
  * Simple liveness heuristic based on facial landmark proportions.
- * Checks inter-eye distance vs face width ratio to detect flat photos.
  * Returns a score between 0 (likely spoof) and 1 (likely real).
  */
 function computeLivenessScore(landmarks: faceapi.FaceLandmarks68): number {
@@ -63,7 +70,6 @@ function computeLivenessScore(landmarks: faceapi.FaceLandmarks68): number {
     const rightEye = landmarks.getRightEye();
     const jaw = landmarks.getJawOutline();
 
-    // Center of each eye
     const leftCenter = {
         x: leftEye.reduce((s, p) => s + p.x, 0) / leftEye.length,
         y: leftEye.reduce((s, p) => s + p.y, 0) / leftEye.length,
@@ -77,19 +83,16 @@ function computeLivenessScore(landmarks: faceapi.FaceLandmarks68): number {
         (rightCenter.x - leftCenter.x) ** 2 + (rightCenter.y - leftCenter.y) ** 2
     );
 
-    // Face width from jaw outline (first and last points)
     const jawLeft = jaw[0]!;
     const jawRight = jaw[jaw.length - 1]!;
     const faceWidth = Math.sqrt(
         (jawRight.x - jawLeft.x) ** 2 + (jawRight.y - jawLeft.y) ** 2
     );
 
-    // Ratio should be ~0.35-0.45 for a real 3D face
     const ratio = interEyeDist / faceWidth;
-    if (ratio < 0.2 || ratio > 0.6) return 0.2; // suspicious
-    if (ratio >= 0.3 && ratio <= 0.5) return 0.95; // healthy range
-
-    return 0.6; // borderline
+    if (ratio < 0.2 || ratio > 0.6) return 0.2;
+    if (ratio >= 0.3 && ratio <= 0.5) return 0.95;
+    return 0.6;
 }
 
 /**
@@ -111,7 +114,6 @@ export async function generateEmbedding(
 
     const detection = detections[0]!;
     const livenessScore = computeLivenessScore(detection.landmarks);
-
     return { descriptor: detection.descriptor, livenessScore };
 }
 
@@ -119,7 +121,9 @@ export async function generateEmbedding(
  * Compare a probe face against all enrolled users.
  * Returns the best match if distance < threshold.
  */
-export async function verifyFace(base64Image: string): Promise<RecognitionResult> {
+export async function verifyFace(
+    base64Image: string
+): Promise<RecognitionResult> {
     const { descriptor: probeDescriptor, livenessScore } =
         await generateEmbedding(base64Image);
 
@@ -128,7 +132,11 @@ export async function verifyFace(base64Image: string): Promise<RecognitionResult
         return { matched: false, user: null, distance: null, livenessScore };
     }
 
-    let bestMatch: { userId: string; name: string; distance: number } | null = null;
+    let bestMatch: {
+        userId: string;
+        name: string;
+        distance: number;
+    } | null = null;
 
     for (const user of users) {
         const enrolled = new Float32Array(user.descriptor);

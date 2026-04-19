@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
-    "@tensorflow/tfjs-node": "^4.22.0",
+    "@tensorflow/tfjs": "^4.22.0",
+    "@tensorflow/tfjs-backend-wasm": "^4.22.0",
     "@vladmandic/face-api": "^1.7.14",
     "canvas": "^3.1.0",
     "fastify": "^5.8.5"
@@ -27,9 +28,7 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "canvas",
-      "esbuild",
-      "@tensorflow/tfjs-node",
-      "core-js"
+      "esbuild"
     ]
   }
 }
