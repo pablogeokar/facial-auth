@@ -9,6 +9,7 @@
     "download-models": "node scripts/download-models.js"
   },
   "dependencies": {
+    "@fastify/cors": "^11.2.0",
     "@tensorflow/tfjs-node": "^4.22.0",
     "@vladmandic/face-api": "^1.7.14",
     "canvas": "^3.1.0",

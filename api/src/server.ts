@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import cors from "@fastify/cors";
 import { config } from "./config.js";
 import { loadModels } from "./services/faceService.js";
 import { enrollRoutes } from "./routes/enroll.js";
@@ -10,15 +11,8 @@ const app = Fastify({
     bodyLimit: 10 * 1024 * 1024, // 10 MB for base64 images
 });
 
-// CORS for local dev
-app.addHook("onRequest", async (request, reply) => {
-    reply.header("Access-Control-Allow-Origin", "*");
-    reply.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    reply.header("Access-Control-Allow-Headers", "Content-Type");
-    if (request.method === "OPTIONS") {
-        return reply.status(204).send();
-    }
-});
+// CORS — allow any origin (tighten in production if needed)
+await app.register(cors, { origin: true });
 
 // Health check
 app.get("/api/health", async () => ({
