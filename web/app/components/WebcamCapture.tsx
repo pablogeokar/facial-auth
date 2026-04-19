@@ -31,7 +31,7 @@ export default function WebcamCapture({
                     setStreaming(true);
                 }
             } catch {
-                setError("Não foi possível aceder à câmara. Verifique as permissões.");
+                setError("Não foi possível carregar à câmera. Verifique as permissões.");
             }
         }
 

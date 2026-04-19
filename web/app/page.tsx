@@ -18,7 +18,7 @@ export default function Home() {
   };
 
   const descriptions: Record<Tab, string> = {
-    verify: "Posicione o rosto em frente à câmara para autenticação.",
+    verify: "Posicione o rosto em frente à câmera para autenticação.",
     enroll: "Preencha os dados e capture uma foto para cadastro.",
     users: "Gerencie os usuários cadastrados no sistema.",
   };
@@ -84,8 +84,8 @@ export default function Home() {
                 onClick={() => setTab(t)}
                 type="button"
                 className={`cursor-pointer rounded-md px-5 py-2 text-sm font-medium transition-colors ${tab === t
-                    ? "bg-accent text-white shadow-sm"
-                    : "text-muted hover:text-foreground hover:bg-accent-light"
+                  ? "bg-accent text-white shadow-sm"
+                  : "text-muted hover:text-foreground hover:bg-accent-light"
                   }`}
               >
                 {t === "verify" ? "Verificar" : t === "enroll" ? "Cadastrar" : "Usuários"}
@@ -104,7 +104,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-card-border bg-surface py-4 text-center text-xs text-muted">
-        FaceGuard &mdash; Reconhecimento facial com face-api.js &amp; TensorFlow.js
+        FaceGuard &mdash; O Reconhecimento facial do SENAI
       </footer>
     </div>
   );
