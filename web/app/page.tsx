@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import EnrollForm from "./components/EnrollForm";
 import VerifyPanel from "./components/VerifyPanel";
@@ -9,9 +9,33 @@ import UsersPanel from "./components/UsersPanel";
 type Tab = "verify" | "enroll" | "users";
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const [tab, setTab] = useState<Tab>("verify");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [autoMode, setAutoMode] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const savedTab = localStorage.getItem("faceguard_active_tab");
+    if (savedTab === "verify" || savedTab === "enroll" || savedTab === "users") {
+      setTab(savedTab as Tab);
+    }
+    const savedAutoMode = localStorage.getItem("faceguard_auto_mode");
+    if (savedAutoMode === "true") {
+      setAutoMode(true);
+    }
+  }, []);
+
+  const handleTabChange = (t: Tab) => {
+    setTab(t);
+    localStorage.setItem("faceguard_active_tab", t);
+  };
+
+  const handleAutoModeChange = () => {
+    const newVal = !autoMode;
+    setAutoMode(newVal);
+    localStorage.setItem("faceguard_auto_mode", String(newVal));
+  };
 
   const titles: Record<Tab, string> = {
     verify: "Permissão de Acesso",
@@ -24,6 +48,10 @@ export default function Home() {
     enroll: "Preencha os dados e capture uma foto para cadastro.",
     users: "Gerencie os usuários cadastrados no sistema.",
   };
+
+  if (!mounted) {
+    return <div className="min-h-screen bg-background" />; // Evita erro de hydration (Next.js)
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -53,9 +81,9 @@ export default function Home() {
             <nav className="hidden md:flex items-center gap-1.5 pt-1">
               {tab === "verify" && (
                 <div className="flex items-center gap-2 mr-2 bg-surface px-3 py-1.5 rounded-md border border-card-border/50" title="Verificação automática sem cliques">
-                  <span className="text-xs text-muted-light font-medium uppercase">Contínuo</span>
+                  <span className="text-xs text-muted-light font-medium uppercase">Câmera sempre ativa</span>
                   <button
-                    onClick={() => setAutoMode(!autoMode)}
+                    onClick={handleAutoModeChange}
                     type="button"
                     className={`relative inline-flex h-5 w-9 cursor-pointer items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent/40 ${autoMode ? "bg-accent" : "bg-card-border"}`}
                     role="switch"
@@ -68,7 +96,7 @@ export default function Home() {
               {(["verify", "enroll", "users"] as Tab[]).map((t) => (
                 <button
                   key={t}
-                  onClick={() => setTab(t)}
+                  onClick={() => handleTabChange(t)}
                   className={`cursor-pointer px-5 py-2 rounded-md font-semibold text-sm transition-colors ${tab === t
                     ? "bg-accent text-white shadow-sm"
                     : "text-muted hover:bg-surface hover:text-foreground"
@@ -104,9 +132,9 @@ export default function Home() {
           <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-card-border shadow-md py-2 px-4 flex flex-col gap-1 origin-top animate-none">
             {tab === "verify" && (
               <div className="flex items-center justify-between px-4 py-3 border-b border-card-border/50 mb-1 bg-surface/50 rounded-md">
-                <span className="text-[15px] font-medium text-foreground">Modo Contínuo</span>
+                <span className="text-[15px] font-medium text-foreground">Câmera sempre ativa</span>
                 <button
-                  onClick={() => setAutoMode(!autoMode)}
+                  onClick={handleAutoModeChange}
                   type="button"
                   className={`relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent/40 ${autoMode ? "bg-accent" : "bg-card-border"}`}
                   role="switch"
@@ -120,7 +148,7 @@ export default function Home() {
               <button
                 key={t}
                 onClick={() => {
-                  setTab(t);
+                  handleTabChange(t);
                   setIsMobileMenuOpen(false);
                 }}
                 className={`w-full text-left px-4 py-3 rounded-md font-medium text-[15px] transition-colors ${tab === t
