@@ -13,7 +13,10 @@ const app = Fastify({
 });
 
 // CORS — allow any origin (tighten in production if needed)
-await app.register(cors, { origin: true });
+await app.register(cors, {
+    origin: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+});
 
 // Health check
 app.get("/api/health", async () => ({
