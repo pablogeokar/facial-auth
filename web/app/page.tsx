@@ -26,13 +26,13 @@ export default function Home() {
 
         {/* Logo strip — white background, centered logo */}
         <div className="bg-white border-b border-card-border">
-          <div className="mx-auto flex h-16 max-w-5xl items-center justify-center px-4">
+          <div className="mx-auto flex h-20 max-w-5xl items-center justify-center px-4">
             <Image
               src="/logo.png"
-              alt="FaceGuard logo"
-              width={180}
-              height={48}
-              className="h-10 sm:h-12 w-auto object-contain"
+              alt="SENAI"
+              width={320}
+              height={80}
+              className="h-14 sm:h-16 w-auto object-contain"
               priority
             />
           </div>
@@ -65,7 +65,7 @@ export default function Home() {
             </h1>
             <p className="mt-1 text-sm text-muted">
               {tab === "verify"
-                ? "Posicione o rosto em frente à câmara para autenticação."
+                ? "Posicione o rosto em frente à câmera para autenticação."
                 : "Preencha os dados e capture uma foto para cadastro."}
             </p>
           </div>
@@ -103,7 +103,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-card-border bg-surface py-4 text-center text-xs text-muted">
-        FaceGuard &mdash; Reconhecimento facial com face-api.js &amp; TensorFlow.js
+        FaceGuard &mdash; Autorização de acesso por reconhecimento facial
       </footer>
     </div>
   );
