@@ -45,17 +45,21 @@ export default function UsersPanel() {
     async function updateUser(id: string, body: { name?: string; status?: UserStatus }) {
         setSaving(true);
         try {
-            const res = await fetch(`${API_URL}/api/users/${id}`, {
+            const res = await fetch(`${API_URL}/api/users/${encodeURIComponent(id)}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
             });
+            const data = await res.json();
             if (res.ok) {
                 await fetchUsers();
                 setEditingId(null);
+                setError(null);
+            } else {
+                setError(data.error ?? "Falha ao atualizar usuário.");
             }
         } catch {
-            setError("Falha ao atualizar usuário.");
+            setError("Falha na comunicação com o servidor.");
         } finally {
             setSaving(false);
         }
