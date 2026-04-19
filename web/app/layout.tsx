@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://facial-auth.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "FaceGuard",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: "FaceGuard — Controle de Acesso Facial",
     description:
       "Sistema de controle de acesso com reconhecimento facial em tempo real.",
-    images: ["/og-image.png"],
+    images: ["https://facial-auth.vercel.app/og-image.png"],
   },
   other: {
     "msapplication-TileColor": "#003770",
