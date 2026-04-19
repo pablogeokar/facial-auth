@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import WebcamCapture from "./WebcamCapture";
+import BlockedDialog from "./BlockedDialog";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
@@ -10,6 +11,8 @@ interface VerifyResult {
     user: { id: string; name: string } | null;
     distance: number | null;
     livenessScore: number | null;
+    blocked?: boolean;
+    inactive?: boolean;
     error?: string;
 }
 
@@ -17,6 +20,7 @@ export default function VerifyPanel() {
     const [result, setResult] = useState<VerifyResult | null>(null);
     const [loading, setLoading] = useState(false);
     const [autoMode, setAutoMode] = useState(false);
+    const [blockedUser, setBlockedUser] = useState<string | null>(null);
     const busyRef = useRef(false);
 
     const handleCapture = useCallback(async (base64: string) => {
@@ -30,8 +34,14 @@ export default function VerifyPanel() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ image: base64 }),
             });
-            const data = await res.json();
-            setResult(data);
+            const data: VerifyResult = await res.json();
+
+            if (data.blocked && data.user) {
+                setBlockedUser(data.user.name);
+                setResult(null);
+            } else {
+                setResult(data);
+            }
         } catch {
             setResult({
                 matched: false,
@@ -48,6 +58,13 @@ export default function VerifyPanel() {
 
     return (
         <div className="space-y-5">
+            {/* Blocked dialog */}
+            <BlockedDialog
+                open={blockedUser !== null}
+                userName={blockedUser ?? ""}
+                onClose={() => setBlockedUser(null)}
+            />
+
             <div className="flex items-center justify-between rounded-md bg-surface border border-card-border px-4 py-3">
                 <span className="text-sm text-foreground font-medium">Modo contínuo</span>
                 <button

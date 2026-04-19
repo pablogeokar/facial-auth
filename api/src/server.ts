@@ -4,6 +4,7 @@ import { config } from "./config.js";
 import { loadModels } from "./services/faceService.js";
 import { enrollRoutes } from "./routes/enroll.js";
 import { verifyRoutes } from "./routes/verify.js";
+import { usersRoutes } from "./routes/users.js";
 import { userStore } from "./store.js";
 
 const app = Fastify({
@@ -23,6 +24,7 @@ app.get("/api/health", async () => ({
 // Register routes
 app.register(enrollRoutes);
 app.register(verifyRoutes);
+app.register(usersRoutes);
 
 async function start(): Promise<void> {
     try {

@@ -11,6 +11,14 @@ class UserStore {
         this.users.set(user.id, user);
     }
 
+    update(id: string, data: Partial<Pick<User, "name" | "status">>): User | undefined {
+        const user = this.users.get(id);
+        if (!user) return undefined;
+        if (data.name !== undefined) user.name = data.name;
+        if (data.status !== undefined) user.status = data.status;
+        return user;
+    }
+
     getById(id: string): User | undefined {
         return this.users.get(id);
     }

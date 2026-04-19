@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { verifyFace } from "../services/faceService.js";
+import { userStore } from "../store.js";
 import type { RecognitionResult, VerifyRequest, ErrorResponse } from "../types.js";
 
 export async function verifyRoutes(app: FastifyInstance): Promise<void> {
@@ -23,6 +24,31 @@ export async function verifyRoutes(app: FastifyInstance): Promise<void> {
                         success: false,
                         error: "Liveness check failed. Possible spoof detected.",
                     });
+                }
+
+                // Check user status when matched
+                if (result.matched && result.user) {
+                    const user = userStore.getById(result.user.id);
+                    if (user) {
+                        if (user.status === "BLOQUEADO") {
+                            return reply.status(403).send({
+                                matched: true,
+                                user: { id: user.id, name: user.name },
+                                distance: result.distance,
+                                livenessScore: result.livenessScore,
+                                blocked: true,
+                            });
+                        }
+                        if (user.status === "INATIVO") {
+                            return reply.status(403).send({
+                                matched: true,
+                                user: { id: user.id, name: user.name },
+                                distance: result.distance,
+                                livenessScore: result.livenessScore,
+                                inactive: true,
+                            });
+                        }
+                    }
                 }
 
                 return reply.status(result.matched ? 200 : 401).send(result);

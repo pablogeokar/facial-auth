@@ -4,17 +4,29 @@ import { useState } from "react";
 import Image from "next/image";
 import EnrollForm from "./components/EnrollForm";
 import VerifyPanel from "./components/VerifyPanel";
+import UsersPanel from "./components/UsersPanel";
 
-type Tab = "enroll" | "verify";
+type Tab = "verify" | "enroll" | "users";
 
 export default function Home() {
   const [tab, setTab] = useState<Tab>("verify");
+
+  const titles: Record<Tab, string> = {
+    verify: "Verificação de Acesso",
+    enroll: "Cadastro de Utilizador",
+    users: "Gestão de Usuários",
+  };
+
+  const descriptions: Record<Tab, string> = {
+    verify: "Posicione o rosto em frente à câmara para autenticação.",
+    enroll: "Preencha os dados e capture uma foto para cadastro.",
+    users: "Gerencie os usuários cadastrados no sistema.",
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header — using original FIES bg.jpg for the stripe bar */}
       <header>
-        {/* Top bar with the original diagonal stripes background */}
         <div
           className="h-12 sm:h-14"
           style={{
@@ -23,13 +35,11 @@ export default function Home() {
             backgroundPosition: "top center",
           }}
         />
-
-        {/* Logo strip — white background, centered logo */}
         <div className="bg-white border-b border-card-border">
           <div className="mx-auto flex h-20 max-w-5xl items-center justify-center px-4">
             <Image
               src="/logo.png"
-              alt="SENAI"
+              alt="FaceGuard logo"
               width={320}
               height={80}
               className="h-14 sm:h-16 w-auto object-contain"
@@ -42,7 +52,7 @@ export default function Home() {
       {/* Main content */}
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
         <div className="flex flex-col items-center">
-          {/* Logo + title block */}
+          {/* Title block */}
           <div className="mb-6 text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent mb-3">
               <svg
@@ -61,49 +71,40 @@ export default function Home() {
               </svg>
             </div>
             <h1 className="text-xl font-semibold text-accent uppercase tracking-wider">
-              {tab === "verify" ? "Verificação de Acesso" : "Cadastro de Utilizador"}
+              {titles[tab]}
             </h1>
-            <p className="mt-1 text-sm text-muted">
-              {tab === "verify"
-                ? "Posicione o rosto em frente à câmera para autenticação."
-                : "Preencha os dados e capture uma foto para cadastro."}
-            </p>
+            <p className="mt-1 text-sm text-muted">{descriptions[tab]}</p>
           </div>
 
           {/* Tab switcher */}
           <div className="flex mb-6 rounded-lg border border-card-border bg-surface p-1 shadow-sm">
-            <button
-              onClick={() => setTab("verify")}
-              type="button"
-              className={`cursor-pointer rounded-md px-5 py-2 text-sm font-medium transition-colors ${tab === "verify"
-                ? "bg-accent text-white shadow-sm"
-                : "text-muted hover:text-foreground hover:bg-accent-light"
-                }`}
-            >
-              Verificar
-            </button>
-            <button
-              onClick={() => setTab("enroll")}
-              type="button"
-              className={`cursor-pointer rounded-md px-5 py-2 text-sm font-medium transition-colors ${tab === "enroll"
-                ? "bg-accent text-white shadow-sm"
-                : "text-muted hover:text-foreground hover:bg-accent-light"
-                }`}
-            >
-              Cadastrar
-            </button>
+            {(["verify", "enroll", "users"] as Tab[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                type="button"
+                className={`cursor-pointer rounded-md px-5 py-2 text-sm font-medium transition-colors ${tab === t
+                    ? "bg-accent text-white shadow-sm"
+                    : "text-muted hover:text-foreground hover:bg-accent-light"
+                  }`}
+              >
+                {t === "verify" ? "Verificar" : t === "enroll" ? "Cadastrar" : "Usuários"}
+              </button>
+            ))}
           </div>
 
           {/* Card */}
           <div className="w-full max-w-2xl rounded-xl border border-card-border bg-card p-6 shadow-sm">
-            {tab === "enroll" ? <EnrollForm /> : <VerifyPanel />}
+            {tab === "verify" && <VerifyPanel />}
+            {tab === "enroll" && <EnrollForm />}
+            {tab === "users" && <UsersPanel />}
           </div>
         </div>
       </main>
 
       {/* Footer */}
       <footer className="border-t border-card-border bg-surface py-4 text-center text-xs text-muted">
-        FaceGuard &mdash; Autorização de acesso por reconhecimento facial
+        FaceGuard &mdash; Reconhecimento facial com face-api.js &amp; TensorFlow.js
       </footer>
     </div>
   );

@@ -5,11 +5,14 @@ export interface AppConfig {
     modelsPath: string;
 }
 
+export type UserStatus = "ATIVO" | "INATIVO" | "BLOQUEADO";
+
 export interface User {
     id: string;
     name: string;
     descriptor: number[];
     enrolledAt: string;
+    status: UserStatus;
 }
 
 export interface RecognitionResult {
@@ -17,6 +20,8 @@ export interface RecognitionResult {
     user: Pick<User, "id" | "name"> | null;
     distance: number | null;
     livenessScore: number | null;
+    blocked?: boolean;
+    inactive?: boolean;
 }
 
 export interface EnrollRequest {

@@ -38,6 +38,7 @@ export async function enrollRoutes(app: FastifyInstance): Promise<void> {
                     name,
                     descriptor: Array.from(descriptor),
                     enrolledAt: new Date().toISOString(),
+                    status: "ATIVO",
                 });
 
                 return reply.status(201).send({
