@@ -12,7 +12,7 @@ export async function verifyRoutes(app: FastifyInstance): Promise<void> {
             if (!image) {
                 return reply.status(400).send({
                     success: false,
-                    error: "Missing required field: image",
+                    error: "Campo obrigatório não informado: image",
                 });
             }
 
@@ -22,7 +22,7 @@ export async function verifyRoutes(app: FastifyInstance): Promise<void> {
                 if (result.livenessScore !== null && result.livenessScore < 0.5) {
                     return reply.status(403).send({
                         success: false,
-                        error: "Liveness check failed. Possible spoof detected.",
+                        error: "Verificação de vivacidade falhou. Possível tentativa de fraude detectada.",
                     });
                 }
 
@@ -58,20 +58,20 @@ export async function verifyRoutes(app: FastifyInstance): Promise<void> {
                 if (message === "NO_FACE_DETECTED") {
                     return reply.status(422).send({
                         success: false,
-                        error: "No face detected in the frame",
+                        error: "Nenhum rosto detectado na imagem",
                     });
                 }
                 if (message === "MULTIPLE_FACES_DETECTED") {
                     return reply.status(422).send({
                         success: false,
-                        error: "Multiple faces detected. Only one face allowed per frame.",
+                        error: "Múltiplos rostos detectados. Apenas um rosto é permitido por captura.",
                     });
                 }
 
                 request.log.error(err, "Verification failed");
                 return reply.status(500).send({
                     success: false,
-                    error: "Internal server error during verification",
+                    error: "Erro interno do servidor ao realizar a verificação",
                 });
             }
         }

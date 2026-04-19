@@ -23,14 +23,14 @@ export async function usersRoutes(app: FastifyInstance): Promise<void> {
         if (!name && !status) {
             return reply.status(400).send({
                 success: false,
-                error: "Provide at least one field to update: name, status",
+                error: "Informe ao menos um campo para atualizar: name, status",
             });
         }
 
         if (status && !VALID_STATUSES.includes(status)) {
             return reply.status(400).send({
                 success: false,
-                error: `Invalid status. Must be one of: ${VALID_STATUSES.join(", ")}`,
+                error: `Status inválido. Deve ser um dos seguintes: ${VALID_STATUSES.join(", ")}`,
             });
         }
 
@@ -39,7 +39,7 @@ export async function usersRoutes(app: FastifyInstance): Promise<void> {
         if (!updated) {
             return reply.status(404).send({
                 success: false,
-                error: `User "${id}" not found`,
+                error: `Usuário "${id}" não encontrado`,
             });
         }
 
@@ -59,10 +59,10 @@ export async function usersRoutes(app: FastifyInstance): Promise<void> {
         if (!deleted) {
             return reply.status(404).send({
                 success: false,
-                error: `User "${id}" not found`,
+                error: `Usuário "${id}" não encontrado`,
             });
         }
 
-        return { success: true, message: `User "${id}" deleted successfully` };
+        return { success: true, message: `Usuário "${id}" excluído com sucesso` };
     });
 }

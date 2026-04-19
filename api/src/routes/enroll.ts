@@ -12,14 +12,14 @@ export async function enrollRoutes(app: FastifyInstance): Promise<void> {
             if (!userId || !name || !image) {
                 return reply.status(400).send({
                     success: false,
-                    error: "Missing required fields: userId, name, image",
+                    error: "Campos obrigatórios não informados: userId, name, image",
                 });
             }
 
             if (userStore.exists(userId)) {
                 return reply.status(409).send({
                     success: false,
-                    error: `User "${userId}" is already enrolled`,
+                    error: `O usuário "${userId}" já está cadastrado`,
                 });
             }
 
@@ -29,7 +29,7 @@ export async function enrollRoutes(app: FastifyInstance): Promise<void> {
                 if (livenessScore < 0.5) {
                     return reply.status(422).send({
                         success: false,
-                        error: "Liveness check failed. Please use a live camera capture.",
+                        error: "Verificação de vivacidade falhou. Utilize uma captura ao vivo da câmera.",
                     });
                 }
 
@@ -44,7 +44,7 @@ export async function enrollRoutes(app: FastifyInstance): Promise<void> {
                 return reply.status(201).send({
                     success: true,
                     userId,
-                    message: `User "${name}" enrolled successfully`,
+                    message: `Usuário "${name}" cadastrado com sucesso`,
                 });
             } catch (err) {
                 const message = err instanceof Error ? err.message : "Unknown error";
@@ -52,20 +52,20 @@ export async function enrollRoutes(app: FastifyInstance): Promise<void> {
                 if (message === "NO_FACE_DETECTED") {
                     return reply.status(422).send({
                         success: false,
-                        error: "No face detected in the image",
+                        error: "Nenhum rosto detectado na imagem",
                     });
                 }
                 if (message === "MULTIPLE_FACES_DETECTED") {
                     return reply.status(422).send({
                         success: false,
-                        error: "Multiple faces detected. Please provide an image with exactly one face.",
+                        error: "Múltiplos rostos detectados. Envie uma imagem com apenas um rosto.",
                     });
                 }
 
                 request.log.error(err, "Enrollment failed");
                 return reply.status(500).send({
                     success: false,
-                    error: "Internal server error during enrollment",
+                    error: "Erro interno do servidor ao realizar o cadastro",
                 });
             }
         }
