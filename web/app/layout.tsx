@@ -26,6 +26,7 @@ export const metadata: Metadata = {
     siteName: "FaceGuard",
     locale: "pt_BR",
     type: "website",
+    url: "https://facial-auth.vercel.app",
     images: [
       {
         url: "https://facial-auth.vercel.app/og-image.jpeg?v=2",
