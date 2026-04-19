@@ -28,19 +28,19 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logo.svg",
-        width: 281,
-        height: 34,
-        alt: "SESI SENAI",
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "FaceGuard",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "FaceGuard — Controle de Acesso Facial",
     description:
       "Sistema de controle de acesso com reconhecimento facial em tempo real.",
-    images: ["/logo.svg"],
+    images: ["/og-image.png"],
   },
   other: {
     "msapplication-TileColor": "#003770",
