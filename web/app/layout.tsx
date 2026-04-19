@@ -28,10 +28,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logo.png",
-        width: 320,
-        height: 80,
-        alt: "FaceGuard logo",
+        url: "/logo.svg",
+        width: 281,
+        height: 34,
+        alt: "SESI SENAI",
       },
     ],
   },
@@ -40,16 +40,16 @@ export const metadata: Metadata = {
     title: "FaceGuard — Controle de Acesso Facial",
     description:
       "Sistema de controle de acesso com reconhecimento facial em tempo real.",
-    images: ["/logo.png"],
+    images: ["/logo.svg"],
   },
   other: {
-    "msapplication-TileColor": "#1a4b9f",
+    "msapplication-TileColor": "#003770",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1a4b9f",
+  themeColor: "#003770",
 };
 
 export default function RootLayout({

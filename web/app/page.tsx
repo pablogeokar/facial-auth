@@ -69,11 +69,11 @@ export default function Home() {
           <div className="mx-auto flex h-16 sm:h-20 max-w-5xl items-center justify-between px-4">
             {/* Logo */}
             <Image
-              src="/logo.png"
-              alt="FaceGuard logo"
-              width={260}
-              height={65}
-              className="h-10 sm:h-14 w-auto object-contain"
+              src="/logo.svg"
+              alt="SESI SENAI"
+              width={160}
+              height={20}
+              className="h-5 sm:h-6 w-auto object-contain"
               priority
             />
 
@@ -201,8 +201,14 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-card-border bg-surface py-4 text-center text-xs text-muted">
-        FaceGuard &mdash; O Reconhecimento facial do SENAI
+      <footer className="border-t border-card-border bg-surface py-5 text-center text-xs text-muted space-y-1.5">
+        <p>FaceGuard &mdash; Sistema de Reconhecimento Facial do SEST SENAT</p>
+        <p className="flex items-center justify-center gap-1.5">
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
+            <path fillRule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clipRule="evenodd" />
+          </svg>
+          Em conformidade com a LGPD, nenhuma imagem facial é armazenada. Apenas representações numéricas são utilizadas para o reconhecimento.
+        </p>
       </footer>
     </div>
   );
